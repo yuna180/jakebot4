@@ -1,56 +1,96 @@
 {
-	"name": "@sapphire/async-queue",
-	"version": "1.3.1",
-	"description": "Sequential asynchronous lock-based queue for promises",
-	"author": "@sapphire",
+	"name": "@sindresorhus/is",
+	"version": "4.6.0",
+	"description": "Type check values",
 	"license": "MIT",
+	"repository": "sindresorhus/is",
+	"funding": "https://github.com/sindresorhus/is?sponsor=1",
+	"author": {
+		"name": "Sindre Sorhus",
+		"email": "sindresorhus@gmail.com",
+		"url": "https://sindresorhus.com"
+	},
 	"main": "dist/index.js",
-	"module": "dist/index.mjs",
-	"browser": "dist/index.global.js",
-	"unpkg": "dist/index.global.js",
-	"types": "dist/index.d.ts",
-	"typedocMain": "src/index.ts",
-	"exports": {
-		"import": "./dist/index.mjs",
-		"require": "./dist/index.js",
-		"types": "./dist/index.d.ts"
+	"engines": {
+		"node": ">=10"
 	},
-	"sideEffects": false,
-	"homepage": "https://github.com/sapphiredev/utilities/tree/main/packages/async-queue",
 	"scripts": {
-		"test": "jest",
-		"lint": "eslint src tests --ext ts --fix -c ../../.eslintrc",
-		"build": "tsup && tsc -b src",
-		"prepublishOnly": "yarn build"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/sapphiredev/utilities.git",
-		"directory": "packages/async-queue"
+		"build": "del dist && tsc",
+		"test": "xo && ava",
+		"prepare": "npm run build"
 	},
 	"files": [
-		"dist",
-		"!dist/*.tsbuildinfo"
+		"dist"
 	],
-	"engines": {
-		"node": ">=v14.0.0",
-		"npm": ">=7.0.0"
-	},
 	"keywords": [
-		"@sapphire/async-queue",
-		"bot",
+		"type",
+		"types",
+		"is",
+		"check",
+		"checking",
+		"validate",
+		"validation",
+		"utility",
+		"util",
+		"typeof",
+		"instanceof",
+		"object",
+		"assert",
+		"assertion",
+		"test",
+		"kind",
+		"primitive",
+		"verify",
+		"compare",
 		"typescript",
-		"ts",
-		"yarn",
-		"discord",
-		"sapphire",
-		"standalone"
+		"typeguards",
+		"types"
 	],
-	"bugs": {
-		"url": "https://github.com/sapphiredev/utilities/issues"
+	"devDependencies": {
+		"@sindresorhus/tsconfig": "^0.7.0",
+		"@types/jsdom": "^16.1.0",
+		"@types/node": "^14.0.13",
+		"@types/zen-observable": "^0.8.0",
+		"@typescript-eslint/eslint-plugin": "^2.20.0",
+		"@typescript-eslint/parser": "^2.20.0",
+		"ava": "^3.3.0",
+		"del-cli": "^2.0.0",
+		"eslint-config-xo-typescript": "^0.26.0",
+		"jsdom": "^16.0.1",
+		"rxjs": "^6.4.0",
+		"tempy": "^0.4.0",
+		"ts-node": "^8.3.0",
+		"typescript": "~3.8.2",
+		"xo": "^0.26.1",
+		"zen-observable": "^0.8.8"
 	},
-	"publishConfig": {
-		"access": "public"
+	"types": "dist/index.d.ts",
+	"sideEffects": false,
+	"ava": {
+		"extensions": [
+			"ts"
+		],
+		"require": [
+			"ts-node/register"
+		]
 	},
-	"gitHead": "bf5ac56e547bfdbfac38e020882004e0f136546e"
+	"xo": {
+		"extends": "xo-typescript",
+		"extensions": [
+			"ts"
+		],
+		"parserOptions": {
+			"project": "./tsconfig.xo.json"
+		},
+		"globals": [
+			"BigInt",
+			"BigInt64Array",
+			"BigUint64Array"
+		],
+		"rules": {
+			"@typescript-eslint/promise-function-async": "off",
+			"@typescript-eslint/no-empty-function": "off",
+			"@typescript-eslint/explicit-function-return-type": "off"
+		}
+	}
 }
