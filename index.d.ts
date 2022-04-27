@@ -1,41 +1,62 @@
-// Type definitions for Node.js 10.17
-// Project: http://nodejs.org/
-// Definitions by: Microsoft TypeScript <https://github.com/Microsoft>
-//                 DefinitelyTyped <https://github.com/DefinitelyTyped>
-//                 Alberto Schiabel <https://github.com/jkomyno>
-//                 Alvis HT Tang <https://github.com/alvis>
-//                 Andrew Makarov <https://github.com/r3nya>
-//                 Chigozirim C. <https://github.com/smac89>
-//                 Deividas Bakanas <https://github.com/DeividasBakanas>
-//                 Eugene Y. Q. Shen <https://github.com/eyqs>
-//                 Hannes Magnusson <https://github.com/Hannes-Magnusson-CK>
-//                 Hoàng Văn Khải <https://github.com/KSXGitHub>
-//                 Huw <https://github.com/hoo29>
-//                 Kelvin Jin <https://github.com/kjin>
-//                 Klaus Meinhardt <https://github.com/ajafff>
-//                 Lishude <https://github.com/islishude>
-//                 Mariusz Wiktorczyk <https://github.com/mwiktorczyk>
-//                 Mohsen Azimi <https://github.com/mohsen1>
-//                 Nicolas Even <https://github.com/n-e>
-//                 Nikita Galkin <https://github.com/galkin>
-//                 Parambir Singh <https://github.com/parambirs>
-//                 Sebastian Silbermann <https://github.com/eps1lon>
-//                 Simon Schick <https://github.com/SimonSchick>
-//                 Thomas den Hollander <https://github.com/ThomasdenH>
-//                 Wilco Bakker <https://github.com/WilcoBakker>
-//                 wwwy3y3 <https://github.com/wwwy3y3>
-//                 Zane Hannan AU <https://github.com/ZaneHannanAU>
-//                 Jeremie Rodriguez <https://github.com/jeremiergz>
-//                 Samuel Ainsworth <https://github.com/samuela>
-//                 Kyle Uehlein <https://github.com/kuehlein>
-//                 Thanik Bhongbhibhat <https://github.com/bhongy>
-//                 Minh Son Nguyen <https://github.com/nguymin4>
-//                 ExE Boss <https://github.com/ExE-Boss>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
+// Definitions by: Carlos Ballesteros Velasco <https://github.com/soywiz>
+//                 Leon Yu <https://github.com/leonyu>
+//                 BendingBender <https://github.com/BendingBender>
+//                 Maple Miao <https://github.com/mapleeit>
 
-// NOTE: These definitions support NodeJS and TypeScript 3.7.
-// This isn't strictly needed since 3.7 has the assert module, but this way we're consistent.
-// Typically type modificatons should be made in base.d.ts instead of here
+/// <reference types="node" />
+import * as stream from 'stream';
+import * as http from 'http';
 
-/// <reference path="base.d.ts" />
-/// <reference path="ts3.6/base.d.ts" />
+export = FormData;
+
+// Extracted because @types/node doesn't export interfaces.
+interface ReadableOptions {
+  highWaterMark?: number;
+  encoding?: string;
+  objectMode?: boolean;
+  read?(this: stream.Readable, size: number): void;
+  destroy?(this: stream.Readable, error: Error | null, callback: (error: Error | null) => void): void;
+  autoDestroy?: boolean;
+}
+
+interface Options extends ReadableOptions {
+  writable?: boolean;
+  readable?: boolean;
+  dataSize?: number;
+  maxDataSize?: number;
+  pauseStreams?: boolean;
+}
+
+declare class FormData extends stream.Readable {
+  constructor(options?: Options);
+  append(key: string, value: any, options?: FormData.AppendOptions | string): void;
+  getHeaders(userHeaders?: FormData.Headers): FormData.Headers;
+  submit(
+    params: string | FormData.SubmitOptions,
+    callback?: (error: Error | null, response: http.IncomingMessage) => void
+  ): http.ClientRequest;
+  getBuffer(): Buffer;
+  setBoundary(boundary: string): void;
+  getBoundary(): string;
+  getLength(callback: (err: Error | null, length: number) => void): void;
+  getLengthSync(): number;
+  hasKnownLength(): boolean;
+}
+
+declare namespace FormData {
+  interface Headers {
+    [key: string]: any;
+  }
+
+  interface AppendOptions {
+    header?: string | Headers;
+    knownLength?: number;
+    filename?: string;
+    filepath?: string;
+    contentType?: string;
+  }
+
+  interface SubmitOptions extends http.RequestOptions {
+    protocol?: 'https:' | 'http:';
+  }
+}
